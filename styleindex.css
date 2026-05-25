@@ -311,35 +311,92 @@ footer {
 
 
 
+/* ===== HAMBURGER BUTTON ===== */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1100;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: white;
+    border-radius: 3px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+/* Animasi X saat open */
+.hamburger.open span:nth-child(1) {
+    transform: translateY(9.5px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-9.5px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
-    .nav-menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: rgba(102, 126, 234, 0.98);
-        flex-direction: column;
-        padding: 20px;
-        gap: 15px;
-    }
-    
-    .nav-menu.active {
-        display: flex;
-    }
-    
     .hamburger {
         display: flex;
     }
-    
+
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 75%;
+        max-width: 300px;
+        height: 100vh;
+        background: linear-gradient(160deg, #667eeaf5 0%, #764ba2f0 100%);
+        backdrop-filter: blur(16px);
+        padding: 90px 30px 40px;
+        gap: 10px;
+        box-shadow: -8px 0 30px rgba(0,0,0,0.25);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1050;
+        list-style: none;
+    }
+
+    .nav-menu.open {
+        right: 0;
+    }
+
+    .nav-link {
+        font-size: 18px;
+        padding: 14px 20px;
+        border-radius: 12px;
+        display: block;
+        transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        background: rgba(255,255,255,0.25);
+        transform: translateX(6px);
+    }
+
     .nav-cart {
         padding: 8px 15px;
     }
-    
+
     .hero h1 {
         font-size: 32px;
     }
-    
+
     .produk-grid {
         grid-template-columns: 1fr;
     }
@@ -486,3 +543,165 @@ footer {
         font-size: 28px;
     }
 }
+
+.hero {
+            padding: 0;
+            margin-top: 70px;
+            position: relative;
+            background: #1a1a2e;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        
+       
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: 100px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .hero-content p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-content button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(231,76,60,0.4);
+            transition: all 0.3s;
+        }
+        
+        .hero-content button:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(231,76,60,0.6);
+        }
+        
+       
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 12px 18px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 20;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        
+        .slider-btn:hover {
+            background: rgba(0,0,0,0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        #prev-slide {
+            left: 20px;
+        }
+        
+        #next-slide {
+            right: 20px;
+        }
+        
+        /* Dots indicator */
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 20;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: #e74c3c;
+            transform: scale(1.2);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            .hero-content p {
+                font-size: 18px;
+            }
+            .slider-btn {
+                font-size: 18px;
+                padding: 8px 14px;
+            }
+        }
