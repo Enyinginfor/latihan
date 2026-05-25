@@ -15,24 +15,388 @@
                 <span>Toko bangunan Medan</span>
             </div>
             
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" class="nav-link active">🏠 Home</a></li>
                 <li><a href="#produk" class="nav-link">📦 Produk</a></li>
                 <li><a href="#kategori" class="nav-link">📂 Kategori</a></li>
                 <li><a href="#kontak" class="nav-link">📞 Kontak</a></li>
             </ul>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             
             <div class="nav-cart">
                 <span class="cart-emoji">🛒</span>
                 <span id="cart-count" class="cart-count">0</span>
             </div>
-            
-          
         </div>
     </nav>
 
   
-  
-           
+    <section id="home" class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active" style="background-image: url(konstruksi2.jpg);"></div>
+            <div class="hero-slide" style="background-image: url('pexels-hadinata-wijaya-2158127199-36695445\ \(1\).jpg');"></div>
+            <div class="hero-slide" style="background-image: url('pexels-villainpress-17006382.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('pexels-phatvo76-13261149.jpg');"></div>
+        </div>
+        <button class="slider-btn" id="prev-slide">◀</button>
+        <button class="slider-btn" id="next-slide">▶</button>
+        
+
+        <div class="slider-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="hero-content">
+            <h1>🛠️ Toko Bangunan Medan</h1>
+            <p>Pasti dan Murah</p>
+            <button onclick="scrollToProduk()">Lihat Produk ➡️</button>
+        </div>
+    </section>
+
+    <div id="produkModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <img id="modal-img" src="" alt="">
+                <div class="modal-info">
+                    <h2 id="modal-nama"></h2>
+                    <div class="modal-harga" id="modal-harga"></div>
+                    <div class="modal-input">
+                        <label>Jumlah:</label>
+                        <input type="number" id="jumlah-input" min="1" value="1">
+                        <select id="satuan-select">
+                            <option value="kg">KG</option>
+                            <option value="ton">TON</option>
+                        </select>
+                    </div>
+                    <button id="pesan-btn" class="pesan-btn">🛒 Pesan Sekarang</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="kategori" class="kategori">
+        <div class="container">
+            <h2>📂 Kategori Produk</h2>
+            <div class="kategori-grid">
+                <div class="kategori-item">
+                    <i class="fas fa-cubes"></i>
+                    <h3>🪨 Semen</h3>
+                </div>
+                <div class="kategori-item">
+                    <i class="fas fa-tools"></i>
+                    <h3>🔧 Alat</h3>
+                </div>
+                <div class="kategori-item">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>🎨 Cat</h3>
+                </div>
+                <div class="kategori-item">
+                    <i class="fas fa-door-open"></i>
+                    <h3>🚪 Pintu</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="produk" class="produk">
+        <div class="container">
+            <h2> Produk Yang tersedia</h2>
+            <div id="produk-list" class="produk-grid">
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak" class="kontak">
+        <div class="container">
+            <h2>📱 Hubungi Kami</h2>
+            <div class="kontak-info">
+                <div>
+                    <i class="fas fa-phone"></i>
+                    <p>📞 0815-5898-0202</p>
+                </div>
+                <div>
+                    <i class="fas fa-envelope"></i>
+                    <p>✉️  BangunanMedan@yahoo.com</p>
+                </div>
+                <div>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>📍 Jl. Muroise</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Saat membuat website ini saya hampir saja memesan tali tambang 2 meter cod no mapping</p>
+        </div>
+    </footer>
+
+    <script>
+     
+       const produk = [
+    {
+        id: 1,
+        nama: "Semen Tiga roda",
+        harga: 65000,
+        gambar: "image.jpeg"
+    },
+    {
+        id: 2,
+        nama: "Bata Merah Standar",
+        harga: 1200,
+        gambar: "bata.jpeg"
+    },
+    {
+        id: 3,
+        nama: "Cat Dulux 2.5L",
+        harga: 285000,
+        gambar: "catdulux.jpeg"
+    },
+    {
+        id: 4,
+        nama: "Paku Beton 10mm",
+        harga: 3500,
+        gambar: "pakubeton.jpeg"
+    },
+    {
+        id: 5,
+        nama: "Pipa PVC 4 inch",
+        harga: 45000,
+        gambar: "Pipa4inch.jpeg"
+    },
+    {
+        id: 6,
+        nama: "Kabel Listrik 2x2.5",
+        harga: 12500,
+        gambar: "image2.jpeg"
+    }
+];
+
+let keranjang = [];
+
+        function tampilkanProduk() {
+            const container = document.getElementById('produk-list');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            produk.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'produk-card';
+                card.innerHTML = `
+                    <img src="${item.gambar}" alt="${item.nama}" onclick="bukaModal(${item.id})" style="cursor: pointer;">
+                    <div class="produk-info">
+                        <h3>${item.nama}</h3>
+                        <div class="produk-harga">💰 Rp ${item.harga.toLocaleString()} / unit</div>
+                        <button class="tambah-keranjang" onclick="bukaModal(${item.id})">
+                            Klik Tombol Ini atau gambar untuk memesan
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function bukaModal(id) {
+            const item = produk.find(p => p.id === id);
+            if (!item) return;
+            
+            const modal = document.getElementById('produkModal');
+            const modalImg = document.getElementById('modal-img');
+            const modalNama = document.getElementById('modal-nama');
+            const modalHarga = document.getElementById('modal-harga');
+            
+            if (modalImg) modalImg.src = item.gambar;
+            if (modalNama) modalNama.textContent = item.nama;
+            if (modalHarga) modalHarga.textContent = `💰 Rp ${item.harga.toLocaleString()} / unit`;
+            
+            const jumlahInput = document.getElementById('jumlah-input');
+            if (jumlahInput) jumlahInput.value = 1;
+            
+            const satuanSelect = document.getElementById('satuan-select');
+            if (satuanSelect) satuanSelect.value = 'kg';
+            
+            if (modal) modal.style.display = 'block';
+            
+            const pesanBtn = document.getElementById('pesan-btn');
+            if (pesanBtn) pesanBtn.onclick = () => pesanProduk(id);
+        }
+
+        function pesanProduk(id) {
+            const item = produk.find(p => p.id === id);
+            if (!item) return;
+            
+            const jumlahInput = document.getElementById('jumlah-input');
+            const satuanSelect = document.getElementById('satuan-select');
+            
+            const jumlah = jumlahInput ? parseInt(jumlahInput.value) : 1;
+            const satuan = satuanSelect ? satuanSelect.value : 'kg';
+            
+            if (jumlah < 1) {
+                alert('Minimal 1 ' + satuan.toUpperCase());
+                return;
+            }
+            
+            keranjang.push({
+                ...item,
+                jumlah: jumlah,
+                satuan: satuan,
+                total: item.harga * jumlah
+            });
+            
+            updateKeranjang();
+            tutupModal();
+            
+            const notif = document.createElement('div');
+            notif.innerHTML = `✅ ${jumlah} ${satuan} <strong>${item.nama}</strong><br>Total: Rp ${(item.harga*jumlah).toLocaleString()}`;
+            notif.style.cssText = `
+                position: fixed; top: 100px; right: 20px; 
+                background: linear-gradient(45deg, #27ae60, #2ecc71);
+                color: white; padding: 20px 30px; border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(39,174,96,0.4);
+                z-index: 2000; font-size: 16px; line-height: 1.4;
+                animation: slideIn 0.4s ease; max-width: 300px;
+            `;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 4000);
+        }
+
+        function updateKeranjang() {
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) cartCount.textContent = keranjang.length;
+        }
+
+        function tutupModal() {
+            const modal = document.getElementById('produkModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function initSlider() {
+            const slides = document.querySelectorAll('.hero-slide');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.getElementById('prev-slide');
+            const nextBtn = document.getElementById('next-slide');
+            
+            if (!slides.length) return;
+            
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            let autoSlideInterval;
+
+            function showSlide(index) {
+                if (index >= totalSlides) index = 0;
+                if (index < 0) index = totalSlides - 1;
+                
+                slides.forEach(slide => slide.classList.remove('active'));
+                if (dots.length) dots.forEach(dot => dot.classList.remove('active'));
+                
+                slides[index].classList.add('active');
+                if (dots[index]) dots[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                showSlide(currentSlide - 1);
+            }
+
+            function startAutoSlide() {
+                if (autoSlideInterval) clearInterval(autoSlideInterval);
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            }
+            
+            function stopAutoSlide() {
+                if (autoSlideInterval) clearInterval(autoSlideInterval);
+            }
+            
+            if (prevBtn) prevBtn.addEventListener('click', () => {
+                prevSlide();
+                stopAutoSlide();
+                startAutoSlide();
+            });
+            
+            if (nextBtn) nextBtn.addEventListener('click', () => {
+                nextSlide();
+                stopAutoSlide();
+                startAutoSlide();
+            });
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    stopAutoSlide();
+                    startAutoSlide();
+                });
+            });
+            
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                heroSection.addEventListener('mouseenter', stopAutoSlide);
+                heroSection.addEventListener('mouseleave', startAutoSlide);
+            }
+            
+            startAutoSlide();
+        }
+        function scrollToProduk() {
+            const produkSection = document.getElementById('produk');
+            if (produkSection) {
+                produkSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            tampilkanProduk();
+            updateKeranjang();
+            initSlider();
+            
+            const closeModal = document.querySelector('.close-modal');
+            if (closeModal) closeModal.onclick = tutupModal;
+            
+            window.onclick = function(event) {
+                const modal = document.getElementById('produkModal');
+                if (event.target == modal) {
+                    tutupModal();
+                }
+            }
+
+          
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', function() {
+                    const isOpen = navMenu.classList.toggle('open');
+                    hamburger.classList.toggle('open', isOpen);
+                    hamburger.setAttribute('aria-expanded', String(isOpen));
+                });
+
+
+                navMenu.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navMenu.classList.remove('open');
+                        hamburger.classList.remove('open');
+                        hamburger.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            }
+        });
+        
+        window.bukaModal = bukaModal;
+        window.pesanProduk = pesanProduk;
+        window.tutupModal = tutupModal;
+        window.scrollToProduk = scrollToProduk;
+    </script>
 </body>
 </html>
