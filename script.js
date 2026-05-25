@@ -1,4 +1,4 @@
-// Data produk sederhana
+
 const produk = [
     {
         id: 1,
@@ -182,6 +182,135 @@ window.onclick = function(event) {
         tutupModal();
     }
 }
+let current = 1;
+        const total = 3;
+        
+        document.getElementById("next").addEventListener("click", function (){
+            if (current === 1){
+                document.getElementById("slide1").classList.remove("active");
+                document.getElementById("slide2").classList.add("active");
+                current = 2;
+            } else if (current === 2) {
+                document.getElementById("slide2").classList.remove("active");
+                document.getElementById("slide3").classList.add("active");
+                current = 3;
+            }else  {
+                document.getElementById("slide3").classList.remove("active");
+                document.getElementById("slide3").classList.add("active");
+                current = 1;
+            }
+        });
 
+        document.getElementById("prev").addEventListener("click", function (){
+            if(current === 1){
+                document.getElementById("slide1").classList.remove("active");
+                document.getElementById("slide3").classList.add("active");
+                current = 3;
+            } else if (current === 2) {
+                document.getElementById("slide2").classList.remove("active");
+                document.getElementById("slide1").classList.add("active");
+                current = 1;
+            } else {
+                document.getElementById("slide3").classList.remove("active");
+                document.getElementById("slide2").classList.add("active");
+                current = 2;
+            }
+        })
+
+       
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide-bg');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let newIndex = currentSlide + 1;
+            if (newIndex >= totalSlides) {
+                newIndex = 0;
+            }
+            showSlide(newIndex);
+        }
+
+        function prevSlide() {
+            let newIndex = currentSlide - 1;
+            if (newIndex < 0) {
+                newIndex = totalSlides - 1;
+            }
+            showSlide(newIndex);
+        }
+
+        document.getElementById('next-bg').addEventListener('click', nextSlide);
+        document.getElementById('prev-bg').addEventListener('click', prevSlide);
+
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => showSlide(index));
+        });
+
+        let autoSlide = setInterval(nextSlide, 2000);
+
+        const heroSection = document.querySelector('.hero');
+        heroSection.addEventListener('mouseenter', () => {
+            clearInterval(autoSlide);
+        });
+        heroSection.addEventListener('mouseleave', () => {
+            autoSlide = setInterval(nextSlide, 5000);
+        });
+
+        function scrollToProduk() {
+            const produkSection = document.getElementById('produk');
+            produkSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        const imageUrls = [
+            'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1920&h=1080&fit=crop', 
+            'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1920&h=1080&fit=crop', 
+            'https://images.unsplash.com/photo-1581092335871-44c9e1e67db1?w=1920&h=1080&fit=crop' 
+        ];
+
+        slides.forEach((slide, index) => {
+            if (imageUrls[index]) {
+                slide.style.backgroundImage = `url('${imageUrls[index]}')`;
+            }
+        });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', String(!expanded));
+            navMenu.classList.toggle('open');
+            document.body.classList.toggle('nav-open', !expanded);
+        });
+
+
+        navMenu.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('nav-open');
+            });
+        });
+    }
+
+
+    window.updateCartCount = (n) => {
+        const el = document.getElementById('cart-count');
+        if (!el) return;
+        el.textContent = Number(n || 0);
+    };
+});
 
 document.querySelector('.close-modal').onclick = tutupModal;
